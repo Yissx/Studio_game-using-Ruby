@@ -1,0 +1,36 @@
+require_relative '../lib/studio_game/game'
+require_relative '../lib/studio_game/treasure_trove'
+require_relative '../lib/studio_game/clumsy_player'
+require_relative '../lib/studio_game/berserk_player'
+
+include StudioGame
+treasures = TreasureTrove::TREASURES
+puts "#{treasures.size} treasures availables"
+treasures.each { |treasure| puts " #{treasure.name} with a value of #{treasure.points}"}
+
+
+clasico = StudioGame::Game.new("Dodgers vs Diablos")
+default_players_file = File.join(File.dirname(__FILE__), 'players.csv')
+clasico.load_players(ARGV.shift || default_players_file)
+
+clumsy_player = ClumsyPlayer.new("klutz", 105)
+berserk_player = BerserkPlayer.new("dan", 54)
+clasico.add_player(clumsy_player)
+clasico.add_player(berserk_player)
+
+loop do
+    puts "How many rounds? ('quit' to exit)"
+    answer = gets.chomp.downcase
+    case answer
+    when /^\d+$/
+        clasico.play(answer.to_i)
+    when "quit", "exit"
+        clasico.stats
+        clasico.sort_players
+        break
+    else
+        puts "Please enter a number or 'quit'"
+    end
+end
+
+clasico.save_high_scores
