@@ -1,0 +1,293 @@
+-Variables --> todas las variables son referencias a objetos en Ruby
+variable.método
+
+-Métodos sobre objetos string
+variableString.upcase
+variableString.length
+variableString.reverse
+variableString.center(10)
+variableString.ljust(30, '.')
+...
+variable.método! --> El cambio es permanente
+variable.método.método --> Esposible concatenar métodos
+variable.empty?
+variables.include?("xxx")
+variable.start_with("G")
+...
+variableInt.to_s
+variableInt.to_f
+variableInt.to_i
+anyVarible.object_id
+anyVarible.class
+anyVarible.inspect
+variableTiempo.hour
+
+
+-Objetos de la librería estándar de Ruby
+__FILE__ --> retorna el nombre del archivo en ejecución
+requires_relative 'file' --> importar
+$0 o $PROGRAM_NAME--> ejecución por sí solo
+Time.new
+Time.new.strftime("%M") --> Obtener formato
+nil --> ausencia de un objeto
+
+-Consola
+irb --> dirige al intérprete para escribir código desde la consola
+exit --> salir del modo Ruby
+ruby --> ejecutar archivo .rb
+ri --> Documentación de funciones --> ri String, ri String.método, ri método
+Control de errores
+
+-Sentencia
+puts "mensaje"  o puts 'mensaje'--> imprimir
+puts variable
+puts 'Nancy's sister doesn't like working' --> no funciona. La \ (secuencia de escape) ayuda con eso.
+puts 'Nancy\'s sister doesn't like working'
+puts 'mensaje' + variableString + 'mensaje' + variableNumerica.to_s
+puts "mensaje #{variableString} mensaje #{variableNumérica}"
+puts "#{8 / 3}" != puts "#{8 / 3.0}"
+"" Soportan operaciones numéricas y caracteres espeiclaes como \n, \t-
+
+
+N.times do
+	code block
+end
+N --> es un número
+
+-Números
+Todos son objetos 
+variableNumero.class --> Fixnum, Float
+Una operación entre números de diferente clase resulta en un número de la clase más genérica
+
+-Métodos
+def método(parámetro, parámetro = default)
+	bloque de código
+end
+No es necesario un return, automáticamente retorna la evaluación de la última sentencia
+
+Clases
+class Nombre --> Nombre siempre capitalized
+	attr_reader :parámetro --> getter method
+	attr_writer :parámetro --> setter method
+	attr_accessor :parámetro --> writer +reader
+	def initialize(parámetro1, parámetro2)
+		@variable1 = parámetro1
+		@variable2 = parametro2
+	end
+	def to_s --> Método que automáticamente se ejecuta cuando se manda a imprimir el objeto
+		"Descripción del objeto (instancia de la clase)"
+	end
+
+	def método
+		bloque de código
+	end
+end
+objeto = Nombre.new
+
+-Arrays
+array = ['nancy', 'paola', 'ceciliaa']
+array = %w(nancy paola cecilia)
+array = []
+array = Array.new
+...
+array[posición] = 'nancy'
+array.push('nancy')
+array << 'nancy'
+...
+array.size
+array.pop --> deletes the last element of the array
+array.empty?
+array.each
+array.each do |arrai|
+	bloque de código
+end
+
+-UnitTesting
+gem makes easy to install external libraries to ruby
+RSpec, Test::Unit, Cucumber, MiniTest, Capybara, Shoulda ejemplos de librerías de testing
+rspec archivoTesting.rb --color --> ejecutar archivo de prueba 
+rsspec carpeta --color --> ejecutar todos los archivos de prueba
+rspec archivoTesting.rb --color -- format doc
+...
+require_relative 'archivoTesteado'
+describe claseTesteada do
+	before do
+		@instancia = claseTesteada.new(parámetros) --> instanciar variables utilizadas en más de un bloque de testing
+	end
+	it "descripción de lo que tiene que hacer"
+		@instancia.atributo == "algo" --> relacionado con los parámetros
+	end
+	it "descripción de lo que tiene que hacer"
+		@instancia.método == "algo" --> relacionado con los parámetros
+	end
+	context "Qué está pasando" do
+		before do
+			@instancia = claseTesteada.new(parámetros) --> instanciar variables utilizadas en más de un bloque de testing
+		end
+		it "descripción de lo que tiene que hacer"
+			@instancia.atributo == "algo" --> relacionado con los parámetros
+		end
+		it "descripción de lo que tiene que hacer"
+			@instancia.método == "algo" --> relacionado con los parámetros
+		end
+	end
+end
+
+-Conditionals
+if condición
+	bloque de código
+elsif
+	bloque de código
+else
+	bloque de código
+end
+...
+método if condición
+...
+def función?
+	sentencia de comparación --> retorna true si es verdadera
+	sentencia true (o false) --> más formas de hacerlo0 
+end
+be_función (en lugar de usar be_true o be_false, llamar a la función del tipo precedido de "be_")
+función? ? sentencia1 : sentencia2else
+...
+@objeto.stub(:método).and_return(value) --> usado cuando para cancelar el llamado a una función pero usar en lugar del valor que retorna un valor por default
+... 
+case Variable
+	when 1 -> si Variable == 1
+		bloque de código
+	when 2
+		bloque de código
+	else
+		bloque de código
+end
+
+-Ruby Blocks
+18.times do --> recibe al contador con 18.times do |i|
+	bloque de código
+end
+...
+0.upto(17) do --> recibe al contador con 0.upto(17) do |i|
+	bloque de código
+end
+...
+3.times { 1 sentencia }
+...
+array.each do |i|
+	bloque de código|
+end
+...
+array = (1..10).to_a --> crear array con función, del a al 10
+array.select { |iterator| condición } --> modifica el array, eliminando a los elementos que no cumplan con la condición
+array.reject es el método contrario a array.select
+even?, odd? --> es par? es impar? --> métodos
+array1, array2 = arrayOrigin.partitio { |iterator| condición }
+array.reduce {|n, iterator| operación }
+array.reduce(:+) --> lo mismo que lo anterior, : significa aplicar a todos los valores del array
+array.sort
+array.sort_by { |iterator| condicional }
+objeto1.atributo <=> objeto1.atributo --> regresa 1 si el atributo del objeto1 es mayor al del objeto2, 0 si son iguales y -1 si es menor
+...
+def <=> (objetoAcomparar)
+	objetoAcomparar.atributo <=> atributo
+end
+...
+
+-Hashes
+Las constantes se escriben todo en mayúsculas
+Mapas o diccionarios
+mapa = Has.new
+mapa = {:clave => valor, :clave => valor}
+mapa = {clava: valor, clave: valor}
+mapa[:nuevaClave] = valor
+
+-Input
+gets
+gets.chomp --> ambos leídos como string
+// --> expresiones regulares siempre inician con double slash
+...
+file = File.open("name.ext") --> class File
+file.close()
+...
+File.open("name.ext", 'w') do |file|
+	file.each_line do |linea|
+		sentencia
+	end
+end
+...
+File.readlines("archivo.ext").each do |line|
+	sentencia
+end
+...
+array1, array2 = x.split(',') --> la coma es un separador
+loop do
+	sentencia
+	break in condición
+end
+
+-Inheritance
+clase.superclass
+clase.ancestors
+...
+class claseHija < clasePadre
+	def initialize(atributo1, atributo2)
+		super(atributo1) --> super llama al método homónimo de la clase padre
+		@atributo2 = atributo2
+	comportamiento 
+end
+object = claseHija.new(atributo1, atributo2)
+...
+
+-Mixins
+module Módulo
+	funciones
+end
+class Clase
+	include Módulo
+end
+
+-Distributions
+Organizar las clases en un módulo cuyo nombre sea el mismo que el del archivo principal
+
+..Carpeta general
+	..moduleName.gemspec
+	..LICENSE
+	..README
+	..Carpeta "lib" --> carpeta "moduleName" --> archivos no main .rb
+	..Carpeta "spec" --> carpeta "moduleName"
+	..Carpeta "bin" para el archivo main y archivos no .rb
+
+default_file = File.join(File.dirname(__FILE__), 'archivosExtra.txt')
+archivoRB.load(ARGV.shift || deult_file)
+
+Módulo::Constante --> acceder a constantes de un módulo
+
+require 'moduleName/archivo'
+module Módulo
+	describe Clase do
+	before do
+		...
+	end
+	it "does something"
+		...
+	end
+end
+
+Gem::Specification.new do |s|
+	s.name 		= "moduleName"								Nombre del software
+	s.version		= "1.0.0"									Versión del software
+	s.author		= "Nancy"
+	s.email		= "yisselcuellar.yc401@gmail.com"
+	s.summary		= "Plays a game"
+	s.description	= File.read(File.join(File.dirname(__FILE__), 'README')	Lee un archivo, para ser más descriptivos
+	s.homepage		= "xd.com"
+	s.files		= Dir["{bin, lib, spec}/**/*"] + %w(LICENSE README)		Crea arreglo com todos los archivos contenidos en las carpetas bin, lib y spec, así como los archivos readme y license
+	s.test_files	= Dir["spec/**/*"]
+	s.executables	= [ 'flicks' ]
+
+	s.required_ruby_version = '>=1.9
+	s.add_development_dependency 'rspec'
+end
+
+gem build fileName.gemspec --> arroja cierta información, como fileName-version.gem
+gem install fileName-version.gem<
